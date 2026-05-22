@@ -19,6 +19,7 @@ def _extract_from_card(card):
     product = {
         "Title": "",
         "Price": "",
+        "Rating": "",
         "Colors": "",
         "Size": "",
         "Gender": "",
@@ -30,6 +31,8 @@ def _extract_from_card(card):
     for line in lines:
         if not product["Price"] and (line.startswith("$") or line.lower() == "price unavailable"):
             product["Price"] = line
+        if "rating" in line.lower() and not product["Rating"]:
+            product["Rating"] = line
         if "colors" in line.lower() and not product["Colors"]:
             product["Colors"] = line
         if line.lower().startswith("size:"):
