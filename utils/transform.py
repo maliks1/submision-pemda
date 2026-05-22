@@ -29,6 +29,7 @@ def _clean_prefixed_text(value, prefix):
 
 def transform_products(products):
     transformed = []
+    seen_rows = set()
     for p in products:
         item = dict(p)
 
@@ -51,6 +52,11 @@ def transform_products(products):
         # Konversi USD ke IDR (1 USD = 16000 IDR)
         price_idr = round(price * 16000, 2)
         item['Price'] = f" {price_idr:.2f}"
-        item['price_with_tax'] = round(price_idr * 1.1, 2)
+
+        row_key = tuple(sorted(item.items()))
+        if row_key in seen_rows:
+            continue
+        seen_rows.add(row_key)
+
         transformed.append(item)
     return transformed

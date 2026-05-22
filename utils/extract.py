@@ -64,7 +64,9 @@ def extract_products(start_url=None):
                 continue
 
             product = _extract_from_card(card)
-            if product["Title"]:
+            title_text = product.get("Title", "").strip()
+            if title_text and title_text.lower() != "unknown product":
+                product["Title"] = title_text
                 product["id"] = str(next_id)
                 products.append(product)
                 next_id += 1
